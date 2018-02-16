@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:title="Control"
+        app:showAsAction="ifRoom"
+        android:enabled="true"
+        android:icon="@drawable/control"
+        android:id="@+id/control"/>
+    <item android:title="Recent Activity"
+        app:showAsAction="ifRoom"
+        android:enabled="true"
+        android:icon="@drawable/activity"
+        android:id="@+id/activity"/>
+    <item android:title="Profile"
+        app:showAsAction="ifRoom"
+        android:enabled="true"
+        android:icon="@drawable/profile"
+        android:id="@+id/profile"/>
+
+</menu>

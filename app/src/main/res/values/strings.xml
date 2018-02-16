@@ -3,4 +3,15 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="first_description">
+        The number of patients in India is increasing day by day. So, in hospitals patients need to be shifted from wheelchair to stretcher, stretcher to beds, bed to wheelchair, or vice versa; which creates unsafe conditions for patients. Also, transferring the patients from wheelchair to stretcher, stretcher to beds, bed to wheelchair is always an issue for the attendant or nurse. Sometime during handling, patient and hospital staff suffer from many problems like stresses are produced in the body, sometime chances to slip down the patient. It is required to eliminate all types of possibilities.
+    </string>
+    <string name="second_description">
+        Understanding the various issues regarding the mobility equipment, the better design will be an asset for the medical field and a helping hand for disabled individuals. There is a need for a wheelchair with height adjustability according to the height of the bed and sliding over the bed to facilitate the disabled patient’s mobility and comfortability and to provide novel medical equipment for use in the Indian hospitals. The present work proposes a development of Multipurpose Wheelchair with Height adjustability and shifting mechanism which will follow the standard specification of both the wheelchair and the bed with considering the issues like safety, hygienic, cleaning and functionality.
+    </string>
+    <string name="third_description">
+        The design of wheel chair started by means of literature review to know its evaluation from earlier to the present generation. Market study was carried out to know the present competitors available in the market with cost analysis of the existing product. Ethnography study was done to observe the need, the importance of the existing product and to address the design gap in the existing product to the user need through questionnaires. The feedback was taken from different users and attendees, concept generation and design execution were done by the implementation of design methodologies like Quality Function Deployment, Mind mapping, Engineering Design Specification.
+    </string>
 </resources>
