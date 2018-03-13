@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:buttonTint="@color/colorAccent"
-                android:text="English"
+                android:text="@string/english"
                 android:textSize="20sp"
                 android:textColor="@color/colorAccent"/>
 
@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:buttonTint="@color/colorAccent"
-                android:text="Hindi"
+                android:text="@string/hindi"
                 android:textSize="20sp"
                 android:textColor="@color/colorAccent"/>
 

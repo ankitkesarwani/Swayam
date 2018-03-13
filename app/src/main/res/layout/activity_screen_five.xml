@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Explore Anytime"
+            android:text="@string/explore_anytime"
             android:fontFamily="serif-monospace"
             android:textSize="24dp"
             android:layout_marginTop="40dp"
@@ -55,7 +55,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Swayam"
+                    android:text="@string/swayam"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
                     android:layout_weight="3"
@@ -86,7 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
-                android:text="Explore the app"/>
+                android:text="@string/explore_the_app"/>
 
         </LinearLayout>
 

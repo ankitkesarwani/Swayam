@@ -1,16 +1,21 @@
 package com.example.kesar.swayam;
 
+import android.app.AlarmManager;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.Image;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -25,7 +30,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.ResultCallback;
@@ -43,8 +50,9 @@ import fragments.UserProfile;
 import fragments.WheelchairControl;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import utils.SharedPrefManager;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawer;
     private FirebaseAuth mAuth;
@@ -73,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .build());
 
         android.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        UserProfile fragment = new UserProfile();
+        UserActivity fragment = new UserActivity();
         transaction.replace(R.id.container, fragment);
         transaction.commit();
 
@@ -98,10 +106,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int id=item.getItemId();
+                int id = item.getItemId();
                 FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-                switch (id){
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                switch (id) {
                     case R.id.control:
                         fragmentTransaction.replace(R.id.container, new WheelchairControl());
                         fragmentTransaction.addToBackStack(null);
@@ -130,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else if(getFragmentManager().getBackStackEntryCount()>0){
+        } else if (getFragmentManager().getBackStackEntryCount() > 0) {
             getFragmentManager().popBackStackImmediate();
         } else {
             super.onBackPressed();
@@ -144,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        if(currentUser == null) {
+        if (currentUser == null) {
 
             sendToStart();
 
@@ -172,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
 
-        if(item.getItemId() == R.id.main_logout_btn) {
+        if (item.getItemId() == R.id.main_logout_btn) {
 
             FirebaseAuth.getInstance().signOut();
             sendToStart();
@@ -205,10 +213,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         dialog.setView(login_layout);
 
+        final RadioButton radioButtonEnglish = (RadioButton) login_layout.findViewById(R.id.english);
+        final RadioButton radioButtonHindi = (RadioButton) login_layout.findViewById(R.id.hindi);
+
         dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
+                if (radioButtonEnglish.isChecked()) {
+
+                    new SharedPrefManager(MainActivity.this).setLanguage("en");
+                    AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                    mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, PendingIntent.getActivity(MainActivity.this, 0, new Intent(MainActivity.this, MainActivity.class), PendingIntent.FLAG_CANCEL_CURRENT));
+                    android.os.Process.killProcess(android.os.Process.myPid());
+                    return;
+
+                } else if (radioButtonHindi.isChecked()) {
+
+                    new SharedPrefManager(MainActivity.this).setLanguage("hi");
+                    AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                    mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, PendingIntent.getActivity(MainActivity.this, 0, new Intent(MainActivity.this, MainActivity.class), PendingIntent.FLAG_CANCEL_CURRENT));
+                    android.os.Process.killProcess(android.os.Process.myPid());
+                    return;
+
+                }
                 dialogInterface.dismiss();
             }
         });
@@ -233,12 +261,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         LayoutInflater inflater = LayoutInflater.from(this);
         View login_layout = inflater.inflate(R.layout.layout_help, null);
 
+        TextView emergencyNumberOne = (TextView) login_layout.findViewById(R.id.emergency_contact_one);
+        TextView emergencyNumberTwo = (TextView) login_layout.findViewById(R.id.emergency_contact_two);
+
         dialog.setView(login_layout);
+
+        final String number_one = emergencyNumberOne.getText().toString();
+        final String number_two = emergencyNumberTwo.getText().toString();
+
+        emergencyNumberOne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:" + number_one));
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    Snackbar.make(drawer, "Please give permission to call", Snackbar.LENGTH_LONG).show();
+                    return;
+                }
+                startActivity(intent);
+
+            }
+        });
+
+        emergencyNumberTwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:" + number_two));
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    Snackbar.make(drawer, "Please give permission to call", Snackbar.LENGTH_LONG).show();
+                    return;
+                }
+                startActivity(intent);
+
+            }
+        });
 
         dialog.setPositiveButton("Call", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
+                Snackbar.make(drawer, "Please Select a Number to Call", Snackbar.LENGTH_LONG).show();
                 dialogInterface.dismiss();
             }
         });

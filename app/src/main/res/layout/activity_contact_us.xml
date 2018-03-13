@@ -41,7 +41,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ankit Kesarwani"
+                    android:text="@string/ankit_kesarwani"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/colorAccent"
                     android:textSize="24sp"
@@ -50,7 +50,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Android Developer | Google Scholar | Open Source Enthusiast"
+                    android:text="@string/android_developer_google_scholar_open_source_enthusiast"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
                     android:gravity="center"/>
@@ -73,7 +73,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Email"
+                        android:text="@string/email"
                         android:layout_weight="2"
                         android:textColor="@color/colorAccent"
                         android:textSize="16sp"/>
@@ -104,7 +104,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Contact no"
+                        android:text="@string/contact_no"
                         android:layout_weight="2"
                         android:textColor="@color/colorAccent"
                         android:textSize="16sp"/>
@@ -135,7 +135,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Facebook"
+                        android:text="@string/facebook"
                         android:layout_weight="2"
                         android:textColor="@color/colorAccent"
                         android:textSize="16sp"/>
@@ -166,7 +166,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Linkedin"
+                        android:text="@string/linkedin"
                         android:layout_weight="2"
                         android:textColor="@color/colorAccent"
                         android:textSize="16sp"/>
@@ -197,7 +197,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Github"
+                        android:text="@string/github"
                         android:layout_weight="2"
                         android:textColor="@color/colorAccent"
                         android:textSize="16sp"/>

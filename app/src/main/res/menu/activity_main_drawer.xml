@@ -4,26 +4,26 @@
     <group android:checkableBehavior="single">
 
         <item android:id="@+id/nav_change_language"
-            android:title="Change Language"/>
+            android:title="@string/change_language"/>
 
         <item android:id="@+id/nav_help"
-            android:title="Emergency"/>
+            android:title="@string/emergency"/>
 
         <item android:id="@+id/nav_about_project"
-            android:title="About Project"/>
+            android:title="@string/about_project"/>
 
         <item android:id="@+id/nav_gallery"
-            android:title="Gallery"/>
+            android:title="@string/gallery"/>
 
     </group>
 
-    <item android:title="Other">
+    <item android:title="@string/other">
         <menu>
             <item
-                android:title="Contact Us"
+                android:title="@string/contact_us"
                 android:id="@+id/nav_contact_us" />
             <item
-                android:title="Log Out"
+                android:title="@string/log_out"
                 android:id="@+id/nav_logout" />
         </menu>
     </item>

@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:backgroundTint="@color/colorAccent"
-            android:text="Power On"
+            android:text="@string/power_on"
             android:padding="15dp"/>
 
     </LinearLayout>
@@ -129,7 +129,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:backgroundTint="@color/colorAccent"
-            android:text="Power Off"
+            android:text="@string/power_off"
             android:padding="15dp"/>
 
     </LinearLayout>

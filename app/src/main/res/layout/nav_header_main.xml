@@ -24,7 +24,7 @@
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:text="SWAYAM"
+        android:text="@string/swayam"
         android:background="@drawable/nevheader_text_background"
         android:layout_marginTop="10dp"
         android:textColor="@android:color/black"/>

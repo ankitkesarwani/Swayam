@@ -263,6 +263,7 @@ public class StartActivity extends AppCompatActivity {
                                 user.setPassword(edtPassword.getText().toString());
                                 user.setName(edtName.getText().toString());
                                 user.setPhone(edtPhone.getText().toString());
+                                user.setImage("default");
 
                                 mDatabaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                         .setValue(user)

@@ -31,7 +31,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="60dp"
-        android:text="Create New Account"
+        android:text="@string/create_new_account"
         android:backgroundTint="@color/colorAccent"
         android:paddingLeft="35dp"
         android:paddingRight="35dp"
@@ -48,7 +48,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
         android:background="@null"
-        android:text="SIGN IN"
+        android:text="@string/sign_in"
         android:textColor="@color/colorAccent"
         android:textSize="15sp"/>
 

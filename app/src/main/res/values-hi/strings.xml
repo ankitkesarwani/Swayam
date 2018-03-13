@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name">स्वयं</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">नमस्ते रिक्त टुकड़ा</string>
+    <string name="navigation_drawer_open">नेविगेशन ड्रॉवर खोलें</string>
+    <string name="navigation_drawer_close">नेविगेशन ड्रॉवर को बंद करें</string>
+    <string name="first_description">
+        भारत में रोगियों की संख्या दिन-प्रतिदिन बढ़ रही है। इसलिए, अस्पतालों में रोगियों को व्हीलचेयर से स्ट्रेचर, स्ट्रेचर से बेड, व्हीलचेयर से बिस्तर या इसके विपरीत स्थानांतरित होने की जरूरत है; जो रोगियों के लिए असुरक्षित स्थिति बनाता है इसके अलावा, व्हीलचेयर से स्ट्रेचर तक, बिस्तर पर स्ट्रेचर, व्हीलचेयर से बिस्तरों को स्थानांतरित करना हमेशा परिचर्या या नर्स के लिए एक मुद्दा है। कुछ समय से निपटने, रोगी और अस्पताल के कर्मचारियों के दौरान कई समस्याओं से पीड़ित होते हैं जैसे शरीर में तनाव उत्पन्न होता है, कुछ समय बाद रोगी को पर्ची करने का मौका मिलता है। यह सभी प्रकार की संभावनाओं को खत्म करने के लिए आवश्यक है।
+    </string>
+    <string name="second_description">
+        गतिशीलता उपकरणों के बारे में विभिन्न मुद्दों को समझना, बेहतर डिजाइन चिकित्सा क्षेत्र के लिए एक संपत्ति होगी और विकलांग व्यक्तियों के लिए सहायता हाथ होगा। विकलांग मरीज की गतिशीलता और आरामदायकता को सुविधाजनक बनाने के लिए बिस्तर की ऊंचाई के अनुसार ऊंचाई समायोजन के साथ व्हीलचेयर की आवश्यकता है और भारतीय अस्पतालों में उपयोग के लिए उपन्यास चिकित्सा उपकरण उपलब्ध कराने की आवश्यकता है। वर्तमान कार्य बहुउद्देशीय व्हीलचेयर की ऊंचाई समायोजन और स्थानांतरण तंत्र के साथ एक विकास का प्रस्ताव करता है जो सुरक्षा, स्वच्छ, सफाई और कार्यक्षमता जैसे मुद्दों पर विचार कर व्हीलचेयर और बिस्तर दोनों के मानक विनिर्देश का पालन करेगा।
+    </string>
+    <string name="third_description">
+        पहिया कुर्सी का डिजाइन पहले से लेकर वर्तमान पीढ़ी तक अपने मूल्यांकन को जानने के लिए साहित्य की समीक्षा के माध्यम से शुरू किया गया था। मौजूदा उत्पाद के मूल्य विश्लेषण के साथ बाजार में उपलब्ध वर्तमान प्रतिस्पर्धियों को जानने के लिए बाजार अध्ययन किया गया। जरूरतों को पूरा करने के लिए नृवंशविज्ञान का अध्ययन किया गया था, वर्तमान उत्पाद का महत्व और मौजूदा उत्पाद में डिजाइन अंतर को प्रश्नावली के माध्यम से उपयोगकर्ता की जरूरतों को पूरा करने के लिए किया गया था। प्रतिक्रिया विभिन्न उपयोगकर्ताओं और प्रतिभागियों से ली गई थी, अवधारणा पीढ़ी और डिजाइन निष्पादन क्वालिटी फ़ंक्शन परिनियोजन, मन मानचित्रण, इंजीनियरिंग डिजाइन विशिष्टता जैसे डिजाइन पद्धतियों के कार्यान्वयन से किया गया था।
+    </string>
+    <string name="ankit_kesarwani">अंकित केसरवानी</string>
+    <string name="android_developer_google_scholar_open_source_enthusiast">एंड्रॉइड डेवलपर | गूगल विद्वान | ओपन सोर्स उत्साही</string>
+    <string name="email">ईमेल</string>
+    <string name="contact_no">संपर्क नंबर</string>
+    <string name="facebook">फेसबुक</string>
+    <string name="linkedin">लिंक्डइन</string>
+    <string name="github">गिटहब</string>
+    <string name="explore_anytime">किसी भी समय एक्सप्लोर करें</string>
+    <string name="swayam">स्वयं</string>
+    <string name="explore_the_app">एप एक्सप्लोर करें</string>
+    <string name="change_language">भाषा बदलो</string>
+    <string name="english">अंग्रेज़ी</string>
+    <string name="hindi">हिंदी</string>
+    <string name="sos_facility">एसओएस सुविधा</string>
+    <string name="track_recent_activity">हाल की गतिविधि ट्रैक करें</string>
+    <string name="your_recent_activity">आपकी हाल की गतिविधि</string>
+    <string name="up">ऊपर</string>
+    <string name="down">नीचे</string>
+    <string name="forward">आगे</string>
+    <string name="backward">पिछड़ा</string>
+    <string name="create_new_account">नया खाता बनाएँ</string>
+    <string name="sign_in">साइन इन करें</string>
+    <string name="today">आज</string>
+    <string name="default_name">डिफ़ॉल्ट नाम</string>
+    <string name="power_on">पावर ऑन</string>
+    <string name="power_off">बिजली बंद</string>
+    <string name="name">नाम</string>
+    <string name="phone">फ़ोन</string>
+    <string name="password">पारण शब्द</string>
+    <string name="emergency">आपातकालीन</string>
+    <string name="about_project">परियोजना के बारे में</string>
+    <string name="gallery">गेलरी</string>
+    <string name="other">अन्य</string>
+    <string name="contact_us">हमसे संपर्क करें</string>
+    <string name="log_out">लोग आउट</string>
+    <string name="control">नियंत्रण</string>
+    <string name="recent_activity">हाल की गतिविधि</string>
+    <string name="profile">प्रोफाइल</string>
+    <string name="logout">लोग आउट</string>
+    <string name="help">मदद</string>
+    <string name="yesterday">बिता कल</string>
+</resources>
