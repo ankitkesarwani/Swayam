@@ -4,6 +4,8 @@ import android.app.AlarmManager;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.PendingIntent;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,11 +27,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -43,6 +50,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
+import java.util.ArrayList;
+import java.util.Set;
 
 import dmax.dialog.SpotsDialog;
 import fragments.UserActivity;
@@ -58,13 +68,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseAuth mAuth;
     private Toolbar mToolbar;
 
-    private ImageButton move_upward;
-    private ImageButton move_downward;
-    private ImageButton move_backward;
-    private ImageButton move_forward;
-    private ImageButton stop;
-
     BottomNavigationView bottomNavigationView;
+
+    //Bluetooth
+    private BluetoothAdapter myBluetooth = null;
+    private Set<BluetoothDevice> pairedDevices;
+
+    ListView pairedDevicesList;
+
+    AlertDialog.Builder dialogPaired;
+
+    String address;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -95,6 +109,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        //if the device has bluetooth
+        myBluetooth = BluetoothAdapter.getDefaultAdapter();
+
+        if(myBluetooth == null) {
+            //Show a mensag. that the device has no bluetooth adapter
+            Toast.makeText(getApplicationContext(), "Bluetooth Device Not Available", Toast.LENGTH_LONG).show();
+            //finish apk
+            finish();
+        } else if(!myBluetooth.isEnabled()) {
+            //Ask to the user turn the bluetooth on
+            Intent turnBTon = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(turnBTon,1);
+        }
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
@@ -129,6 +158,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             }
         });
+
+        showPairedDevicesDialog();
 
     }
 
@@ -200,6 +231,86 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         return true;
+    }
+
+    private void showPairedDevicesDialog() {
+
+        dialogPaired = new AlertDialog.Builder(this);
+        dialogPaired.setTitle("Paired Devices");
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View paired_devices_layout = inflater.inflate(R.layout.layout_paired_devices, null);
+
+        dialogPaired.setView(paired_devices_layout);
+
+        pairedDevicesList = (ListView) paired_devices_layout.findViewById(R.id.list_view);
+        final Button pairedDeviceButton = (Button) paired_devices_layout.findViewById(R.id.paired_devices);
+
+        pairedDeviceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                pairedDeviceList();
+
+            }
+        });
+
+        dialogPaired.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        dialogPaired.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        dialogPaired.show();
+
+    }
+
+    private void pairedDeviceList() {
+
+        pairedDevices = myBluetooth.getBondedDevices();
+        ArrayList list = new ArrayList();
+
+        if (pairedDevices.size() > 0) {
+            for(BluetoothDevice bt : pairedDevices) {
+                list.add(bt.getName() + "\n" + bt.getAddress()); //Get the device's name and the address
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "No Paired Bluetooth Devices Found.", Toast.LENGTH_LONG).show();
+        }
+
+        final ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, list);
+        pairedDevicesList.setAdapter(adapter);
+        pairedDevicesList.setOnItemClickListener(myListClickListener); //Method called when the device from the list is clicked
+
+    }
+
+    private AdapterView.OnItemClickListener myListClickListener = new AdapterView.OnItemClickListener()
+    {
+        public void onItemClick (AdapterView<?> av, View v, int arg2, long arg3)
+        {
+            // Get the device MAC address, the last 17 chars in the View
+            String info = ((TextView) v).getText().toString();
+            address = info.substring(info.length() - 17);
+
+            if (!address.equals("")) {
+                Log.d("Address is ", address);
+                Bundle bundle = new Bundle();
+                bundle.putString("address", address);
+            }
+
+        }
+    };
+
+    public String getResult() {
+        return address;
     }
 
     private void showLanguageDialog() {
@@ -345,7 +456,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(contactUs);
                 break;
             case R.id.nav_gallery:
-                Snackbar.make(drawer, "Galley will update soon...", Snackbar.LENGTH_LONG).show();
+                Intent gallery = new Intent(MainActivity.this, GalleryView.class);
+                startActivity(gallery);
+                break;
 
         }
 
