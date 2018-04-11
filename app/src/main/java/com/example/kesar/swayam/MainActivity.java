@@ -80,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     String address;
 
+    private int TAG = 0;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -140,10 +142,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 switch (id) {
                     case R.id.control:
-                        fragmentTransaction.replace(R.id.container, new WheelchairControl());
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
-                        break;
+
+                        if(!myBluetooth.isEnabled()) {
+                            //Ask to the user turn the bluetooth on
+                            Intent turnBTon = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                            startActivityForResult(turnBTon,1);
+                        }
+
+                        if (pairedDevices.size() <= 0) {
+                            Toast.makeText(getApplicationContext(), "No Paired Bluetooth Devices Found.", Toast.LENGTH_LONG).show();
+                        }
+
+                        if (TAG == 0) {
+                            showPairedDevicesDialog();
+                        } else {
+                            fragmentTransaction.replace(R.id.container, new WheelchairControl());
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+                            break;
+                        }
                     case R.id.activity:
                         fragmentTransaction.replace(R.id.container, new UserActivity());
                         fragmentTransaction.addToBackStack(null);
@@ -159,7 +176,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        showPairedDevicesDialog();
+        if (TAG == 0) {
+            showPairedDevicesDialog();
+        }
 
     }
 
@@ -304,6 +323,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.d("Address is ", address);
                 Bundle bundle = new Bundle();
                 bundle.putString("address", address);
+                TAG = 1;
             }
 
         }
