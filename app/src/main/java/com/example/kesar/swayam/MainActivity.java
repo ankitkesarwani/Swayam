@@ -479,6 +479,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent gallery = new Intent(MainActivity.this, GalleryView.class);
                 startActivity(gallery);
                 break;
+            case R.id.nav_team:
+                Intent team = new Intent(MainActivity.this, Team.class);
+                startActivity(team);
+                break;
 
         }
 

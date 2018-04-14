@@ -38,7 +38,7 @@ import dmax.dialog.SpotsDialog;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class StartActivity extends AppCompatActivity {
+public class  StartActivity extends AppCompatActivity {
 
     RelativeLayout rootLayout;
     private ViewPager viewPager;

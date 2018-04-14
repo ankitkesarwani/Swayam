@@ -55,4 +55,16 @@
     <string name="logout">लोग आउट</string>
     <string name="help">मदद</string>
     <string name="yesterday">बिता कल</string>
+    <string name="Team">टीम</string>
+    <string name="computer_science_and_engineering_2015032">कंप्यूटर विज्ञान और इंजीनियरिंग (2015032)</string>
+    <string name="shubham_kishore">शुभम किशोर</string>
+    <string name="mechanical_engineering_2015242">मैकेनिकल इंजीनियरिंग (2015242)</string>
+    <string name="brijesh_sharma">Brijesh Sharma</string>
+    <string name="electronic_and_communication_engineering_2015068">इलेक्ट्रॉनिक और संचार इंजीनियरिंग (2015068)</string>
+    <string name="jayavardhan">जया वर्धन</string>
+    <string name="computer_science_and_engineering_2015123">कंप्यूटर विज्ञान और इंजीनियरिंग (2015123)</string>
+    <string name="shivam_mishra">शिवम मिश्रा</string>
+    <string name="mechanical_engineering_2015235">मैकेनिकल इंजीनियरिंग (2015235)</string>
+    <string name="easy_to_control">नियंत्रित करने के लिए आसान</string>
+    <string name="paired_devices">युग्मित डिवाइस</string>
 </resources>

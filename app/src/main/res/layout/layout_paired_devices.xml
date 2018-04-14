@@ -40,7 +40,7 @@
                     android:id="@+id/paired_devices"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Paired Devices"
+                    android:text="@string/paired_devices"
                     android:backgroundTint="@color/colorAccent"/>
 
             </LinearLayout>

@@ -55,4 +55,16 @@
     <string name="logout">Logout</string>
     <string name="help">Help</string>
     <string name="yesterday">Yesterday</string>
+    <string name="Team">Team</string>
+    <string name="computer_science_and_engineering_2015032">Computer Science and Engineering (2015032)</string>
+    <string name="shubham_kishore">Shubham Kishore</string>
+    <string name="mechanical_engineering_2015242">Mechanical Engineering (2015242)</string>
+    <string name="brijesh_sharma">Brijesh Sharma</string>
+    <string name="electronic_and_communication_engineering_2015068">Electronic and Communication Engineering (2015068)</string>
+    <string name="jayavardhan">Jayavardhan</string>
+    <string name="computer_science_and_engineering_2015123">Computer Science and Engineering (2015123)</string>
+    <string name="shivam_mishra">Shivam Mishra</string>
+    <string name="mechanical_engineering_2015235">Mechanical Engineering (2015235)</string>
+    <string name="easy_to_control">Easy To Control</string>
+    <string name="paired_devices">Paired Devices</string>
 </resources>
