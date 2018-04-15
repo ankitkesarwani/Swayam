@@ -30,7 +30,7 @@ public class GalleryView extends AppCompatActivity {
 
         mToolbar = (Toolbar) findViewById(R.id.gallery_toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Gallery");
+        getSupportActionBar().setTitle(R.string.gallery);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }

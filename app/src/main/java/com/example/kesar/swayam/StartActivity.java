@@ -123,8 +123,8 @@ public class  StartActivity extends AppCompatActivity {
     private void showLoginDialog() {
 
         final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("Sign In");
-        dialog.setMessage("Please use your Email to sign in");
+        dialog.setTitle(R.string.sign_in);
+        dialog.setMessage(R.string.please_use_your_email_address_to_sign_in);
 
         LayoutInflater inflater = LayoutInflater.from(this);
         View login_layout = inflater.inflate(R.layout.layout_login, null);
@@ -134,7 +134,7 @@ public class  StartActivity extends AppCompatActivity {
 
         dialog.setView(login_layout);
 
-        dialog.setPositiveButton("SIGN IN", new DialogInterface.OnClickListener() {
+        dialog.setPositiveButton(R.string.sign_in, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -144,7 +144,7 @@ public class  StartActivity extends AppCompatActivity {
 
                 if (TextUtils.isEmpty(edtEmail.getText().toString())) {
 
-                    Snackbar.make(rootLayout, "Please Enter Email Address", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(rootLayout, R.string.please_enter_email_address, Snackbar.LENGTH_LONG).show();
                     signin.setEnabled(true);
                     return;
 
@@ -152,7 +152,7 @@ public class  StartActivity extends AppCompatActivity {
 
                 if (TextUtils.isEmpty(edtPassword.getText().toString())) {
 
-                    Snackbar.make(rootLayout, "Please Enter Password", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(rootLayout, R.string.please_enter_password, Snackbar.LENGTH_LONG).show();
                     signin.setEnabled(true);
                     return;
 
@@ -160,7 +160,7 @@ public class  StartActivity extends AppCompatActivity {
 
                 if (edtPassword.getText().toString().length() < 6) {
 
-                    Snackbar.make(rootLayout, "Password is too short", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(rootLayout, R.string.password_is_too_short, Snackbar.LENGTH_LONG).show();
                     signin.setEnabled(true);
                     return;
 
@@ -192,7 +192,7 @@ public class  StartActivity extends AppCompatActivity {
             }
         });
 
-        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
@@ -206,8 +206,8 @@ public class  StartActivity extends AppCompatActivity {
     private void showRegisterDialog() {
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("REGISTER");
-        dialog.setMessage("Please use your Email to register");
+        dialog.setTitle(R.string.register);
+        dialog.setMessage(R.string.please_use_your_email_address_to_register);
 
         LayoutInflater inflater = LayoutInflater.from(this);
         View register_layout = inflater.inflate(R.layout.layout_register, null);
@@ -219,7 +219,7 @@ public class  StartActivity extends AppCompatActivity {
 
         dialog.setView(register_layout);
 
-        dialog.setPositiveButton("REGISTER", new DialogInterface.OnClickListener() {
+        dialog.setPositiveButton(R.string.register, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -227,31 +227,34 @@ public class  StartActivity extends AppCompatActivity {
 
                 if (TextUtils.isEmpty(edtEmail.getText().toString())) {
 
-                    Snackbar.make(rootLayout, "Please Enter Email Address", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(rootLayout, R.string.please_enter_email_address, Snackbar.LENGTH_LONG).show();
                     return;
 
                 }
 
                 if (TextUtils.isEmpty(edtPhone.getText().toString())) {
 
-                    Snackbar.make(rootLayout, "Please Enter Phone Number", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(rootLayout, R.string.please_enter_phone_number, Snackbar.LENGTH_LONG).show();
                     return;
 
                 }
 
                 if (TextUtils.isEmpty(edtPassword.getText().toString())) {
 
-                    Snackbar.make(rootLayout, "Please Enter Password", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(rootLayout, R.string.please_enter_password, Snackbar.LENGTH_LONG).show();
                     return;
 
                 }
 
                 if (edtPassword.getText().toString().length() < 6) {
 
-                    Snackbar.make(rootLayout, "Password is too short", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(rootLayout, R.string.password_is_too_short, Snackbar.LENGTH_LONG).show();
                     return;
 
                 }
+
+                final SpotsDialog waitingDialog = new SpotsDialog(StartActivity.this);
+                waitingDialog.show();
 
                 mAuth.createUserWithEmailAndPassword(edtEmail.getText().toString(), edtPassword.getText().toString())
                         .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
@@ -264,6 +267,9 @@ public class  StartActivity extends AppCompatActivity {
                                 user.setName(edtName.getText().toString());
                                 user.setPhone(edtPhone.getText().toString());
                                 user.setImage("default");
+                                user.setThumb_image("default");
+                                user.setEmergency_contact_one("default");
+                                user.setEmergency_contact_two("default");
 
                                 mDatabaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                         .setValue(user)
@@ -271,13 +277,15 @@ public class  StartActivity extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(Void aVoid) {
 
-                                                Snackbar.make(rootLayout, "Register Successfully", Snackbar.LENGTH_LONG).show();
+                                                waitingDialog.dismiss();
+                                                Snackbar.make(rootLayout, R.string.register_successfully, Snackbar.LENGTH_LONG).show();
 
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
 
+                                        waitingDialog.dismiss();
                                         Snackbar.make(rootLayout, "Failed "+e.getMessage(), Snackbar.LENGTH_LONG).show();
 
                                     }
@@ -296,7 +304,7 @@ public class  StartActivity extends AppCompatActivity {
             }
         });
 
-        dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+        dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 

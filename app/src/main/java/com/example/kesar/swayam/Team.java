@@ -30,7 +30,7 @@ public class Team extends AppCompatActivity {
 
         mToolbar = (Toolbar) findViewById(R.id.team_page_toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Team");
+        getSupportActionBar().setTitle(R.string.Team);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }

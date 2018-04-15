@@ -44,6 +44,8 @@
         <activity
             android:name=".Team"
             android:parentActivityName=".MainActivity" />
+        <activity android:name=".EditProfile"
+            android:parentActivityName=".MainActivity"/>
     </application>
 
 </manifest>

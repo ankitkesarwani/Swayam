@@ -30,7 +30,7 @@ public class ContactUs extends AppCompatActivity {
 
         mToolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Contact Us");
+        getSupportActionBar().setTitle(R.string.contact_us);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }

@@ -22,7 +22,7 @@
             android:id="@+id/emergency_contact_one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+91-8349980190"
+            android:text="@string/no_number_added"
             android:layout_weight="4"
             android:textSize="20sp"
             android:textColor="@color/colorAccent"/>
@@ -51,7 +51,7 @@
             android:id="@+id/emergency_contact_two"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+91-9956132148"
+            android:text="@string/no_number_added"
             android:layout_weight="4"
             android:textSize="20sp"
             android:textColor="@color/colorAccent"/>

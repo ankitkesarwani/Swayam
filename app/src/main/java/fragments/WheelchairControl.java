@@ -250,7 +250,7 @@ public class WheelchairControl extends Fragment {
         @Override
         protected void onPreExecute()
         {
-            progress = ProgressDialog.show(getContext(), "Connecting...", "Please wait!!!");  //show a progress dialog
+            progress = ProgressDialog.show(getContext(), String.valueOf(R.string.connecting), String.valueOf(R.string.please_wait));  //show a progress dialog
         }
 
         @Override
@@ -281,12 +281,12 @@ public class WheelchairControl extends Fragment {
 
             if (!ConnectSuccess)
             {
-                msg("Connection Failed. Is it a SPP Bluetooth? Try again.");
+                msg(String.valueOf(R.string.connection_failed_is_it_a_spp_bluetooth_try_again));
                 getActivity().finish();
             }
             else
             {
-                msg("Connected.");
+                msg(String.valueOf(R.string.connected));
                 isBtConnected = true;
             }
             progress.dismiss();

@@ -30,7 +30,7 @@ public class AboutProject extends AppCompatActivity {
 
         mToolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("About Project");
+        getSupportActionBar().setTitle(R.string.about_project);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }

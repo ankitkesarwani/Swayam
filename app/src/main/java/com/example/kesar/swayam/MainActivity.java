@@ -1,5 +1,7 @@
 package com.example.kesar.swayam;
 
+import android.*;
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -12,6 +14,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.Image;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -49,6 +52,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;
@@ -66,6 +74,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     DrawerLayout drawer;
     private FirebaseAuth mAuth;
+    private DatabaseReference mUserDatabase;
+
+    private FirebaseUser mCurrentUser;
     private Toolbar mToolbar;
 
     BottomNavigationView bottomNavigationView;
@@ -107,8 +118,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Swayam");
+        getSupportActionBar().setTitle(R.string.swayam);
 
+        mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        String current_uid = mCurrentUser.getUid();
+
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(current_uid);
+        mUserDatabase.keepSynced(true);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -117,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if(myBluetooth == null) {
             //Show a mensag. that the device has no bluetooth adapter
-            Toast.makeText(getApplicationContext(), "Bluetooth Device Not Available", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.bluetooth_device_not_available, Toast.LENGTH_LONG).show();
             //finish apk
             finish();
         } else if(!myBluetooth.isEnabled()) {
@@ -125,6 +142,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent turnBTon = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(turnBTon,1);
         }
+
+        ActivityCompat.requestPermissions(MainActivity.this,
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CALL_PHONE,
+                Manifest.permission.READ_PHONE_STATE, Manifest.permission.RECEIVE_SMS, Manifest.permission.CHANGE_CONFIGURATION},
+                1);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -147,19 +169,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             //Ask to the user turn the bluetooth on
                             Intent turnBTon = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                             startActivityForResult(turnBTon,1);
-                        }
-
-                        if (pairedDevices.size() <= 0) {
-                            Toast.makeText(getApplicationContext(), "No Paired Bluetooth Devices Found.", Toast.LENGTH_LONG).show();
-                        }
-
-                        if (TAG == 0) {
-                            showPairedDevicesDialog();
                         } else {
-                            fragmentTransaction.replace(R.id.container, new WheelchairControl());
-                            fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.commit();
-                            break;
+                            if (TAG == 0) {
+                                showPairedDevicesDialog();
+                            } else {
+                                fragmentTransaction.replace(R.id.container, new WheelchairControl());
+                                fragmentTransaction.addToBackStack(null);
+                                fragmentTransaction.commit();
+                                break;
+                            }
                         }
                     case R.id.activity:
                         fragmentTransaction.replace(R.id.container, new UserActivity());
@@ -255,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void showPairedDevicesDialog() {
 
         dialogPaired = new AlertDialog.Builder(this);
-        dialogPaired.setTitle("Paired Devices");
+        dialogPaired.setTitle(R.string.paired_devices);
 
         LayoutInflater inflater = LayoutInflater.from(this);
         View paired_devices_layout = inflater.inflate(R.layout.layout_paired_devices, null);
@@ -274,14 +292,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        dialogPaired.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        dialogPaired.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
             }
         });
 
-        dialogPaired.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        dialogPaired.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
@@ -302,7 +320,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 list.add(bt.getName() + "\n" + bt.getAddress()); //Get the device's name and the address
             }
         } else {
-            Toast.makeText(getApplicationContext(), "No Paired Bluetooth Devices Found.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.no_paired_bluetooth_devices_found, Toast.LENGTH_LONG).show();
         }
 
         final ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, list);
@@ -336,8 +354,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void showLanguageDialog() {
 
         final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("Change Language");
-        dialog.setMessage("Please select one from below");
+        dialog.setTitle(R.string.change_language);
+        dialog.setMessage(R.string.please_select_one_from_below);
 
         LayoutInflater inflater = LayoutInflater.from(this);
         View login_layout = inflater.inflate(R.layout.layout_language, null);
@@ -347,7 +365,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final RadioButton radioButtonEnglish = (RadioButton) login_layout.findViewById(R.id.english);
         final RadioButton radioButtonHindi = (RadioButton) login_layout.findViewById(R.id.hindi);
 
-        dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        dialog.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -372,7 +390,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
@@ -386,14 +404,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void showHelpDialog() {
 
         final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("Emergency");
-        dialog.setMessage("Please select anyone");
+        dialog.setTitle(R.string.emergency);
+        dialog.setMessage(R.string.please_select_one_from_below);
 
         LayoutInflater inflater = LayoutInflater.from(this);
         View login_layout = inflater.inflate(R.layout.layout_help, null);
 
-        TextView emergencyNumberOne = (TextView) login_layout.findViewById(R.id.emergency_contact_one);
-        TextView emergencyNumberTwo = (TextView) login_layout.findViewById(R.id.emergency_contact_two);
+        final TextView emergencyNumberOne = (TextView) login_layout.findViewById(R.id.emergency_contact_one);
+        final TextView emergencyNumberTwo = (TextView) login_layout.findViewById(R.id.emergency_contact_two);
+
+
+        mUserDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                String emergencyOne = dataSnapshot.child("emergency_contact_one").getValue().toString();
+                String emergencyTwo = dataSnapshot.child("emergency_contact_two").getValue().toString();
+
+                emergencyNumberOne.setText(emergencyOne);
+                emergencyNumberTwo.setText(emergencyTwo);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         dialog.setView(login_layout);
 
@@ -407,7 +444,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent = new Intent(Intent.ACTION_CALL);
                 intent.setData(Uri.parse("tel:" + number_one));
                 if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    Snackbar.make(drawer, "Please give permission to call", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(drawer, R.string.please_give_permission_to_call, Snackbar.LENGTH_LONG).show();
                     return;
                 }
                 startActivity(intent);
@@ -422,7 +459,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent = new Intent(Intent.ACTION_CALL);
                 intent.setData(Uri.parse("tel:" + number_two));
                 if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    Snackbar.make(drawer, "Please give permission to call", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(drawer, R.string.please_give_permission_to_call, Snackbar.LENGTH_LONG).show();
                     return;
                 }
                 startActivity(intent);
@@ -430,16 +467,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        dialog.setPositiveButton("Call", new DialogInterface.OnClickListener() {
+        dialog.setPositiveButton(R.string.call, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                Snackbar.make(drawer, "Please Select a Number to Call", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(drawer, R.string.please_select_a_number_to_call, Snackbar.LENGTH_LONG).show();
                 dialogInterface.dismiss();
             }
         });
 
-        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
@@ -489,5 +526,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        switch (requestCode) {
+            case 1: {
+
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Toast.makeText(MainActivity.this, "Permission denied.", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

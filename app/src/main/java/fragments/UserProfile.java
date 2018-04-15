@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kesar.swayam.EditProfile;
 import com.example.kesar.swayam.MainActivity;
 import com.example.kesar.swayam.R;
 import com.example.kesar.swayam.User;
@@ -39,6 +41,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -153,11 +156,15 @@ public class UserProfile extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Intent galleryIntent = new Intent();
+                Intent editProfileIntent = new Intent(getActivity(), EditProfile.class);
+                startActivity(editProfileIntent);
+                /*Intent galleryIntent = new Intent();
                 galleryIntent.setType("image/*");
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
 
-                startActivityForResult(Intent.createChooser(galleryIntent, "SELECT IMAGE"), GALLERY_PICK);
+                startActivityForResult(Intent.createChooser(galleryIntent, String.valueOf(R.string.select_image)), GALLERY_PICK);*/
+
+                //CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(getActivity());
 
             }
         });
@@ -168,14 +175,16 @@ public class UserProfile extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == GALLERY_PICK && resultCode == RESULT_OK) {
 
             Uri imageUri = data.getData();
 
-            CropImage.activity(imageUri).setAspectRatio(1, 1).start(activity);
-
+            CropImage.activity(imageUri)
+                    .setAspectRatio(1, 1)
+                    .start(getActivity());
         }
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
@@ -185,8 +194,8 @@ public class UserProfile extends Fragment {
             if (resultCode == RESULT_OK) {
 
                 mProgressDialog = new ProgressDialog(mMainView.getContext());
-                mProgressDialog.setTitle("Uploading Image...");
-                mProgressDialog.setMessage("Please wait while we upload and process the image.");
+                mProgressDialog.setTitle(R.string.uploading_image);
+                mProgressDialog.setMessage(String.valueOf(R.string.please_wait_while_we_upload_and_process_the_image));
                 mProgressDialog.setCanceledOnTouchOutside(false);
                 mProgressDialog.show();
 
@@ -237,7 +246,7 @@ public class UserProfile extends Fragment {
                                                 if(task.isSuccessful()) {
 
                                                     mProgressDialog.dismiss();
-                                                    Snackbar.make(mMainView, "Successfully Updated", Snackbar.LENGTH_LONG).show();
+                                                    Snackbar.make(mMainView, R.string.successfully_updated, Snackbar.LENGTH_LONG).show();
 
                                                 }
 
@@ -246,7 +255,7 @@ public class UserProfile extends Fragment {
 
                                     } else {
 
-                                        Snackbar.make(mMainView, "Error in Uploading Thumbnail", Snackbar.LENGTH_LONG).show();
+                                        Snackbar.make(mMainView, R.string.error_in_uploading_thumbnail, Snackbar.LENGTH_LONG).show();
                                         mProgressDialog.dismiss();
 
                                     }
@@ -255,7 +264,7 @@ public class UserProfile extends Fragment {
                             });
                         } else {
 
-                            Snackbar.make(mMainView, "Error in Uploading", Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(mMainView, R.string.error_in_uploading, Snackbar.LENGTH_LONG).show();
                             mProgressDialog.dismiss();
 
                         }
@@ -267,6 +276,10 @@ public class UserProfile extends Fragment {
 
                 Exception error = result.getError();
                 Snackbar.make(mMainView, "Error: " + error, Snackbar.LENGTH_LONG).show();
+
+            } else {
+
+                Snackbar.make(mMainView, "Error", Snackbar.LENGTH_LONG).show();
 
             }
 
