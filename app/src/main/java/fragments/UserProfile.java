@@ -67,6 +67,9 @@ public class UserProfile extends Fragment {
     private TextView userEmail;
     private TextView userNumber;
 
+    private TextView emergency_contact_one;
+    private TextView emergency_contact_two;
+
     private ImageButton edit_profile;
 
     private View mMainView;
@@ -108,6 +111,9 @@ public class UserProfile extends Fragment {
         userEmail = (TextView) mMainView.findViewById(R.id.user_profile_email);
         userNumber = (TextView) mMainView.findViewById(R.id.user_profile_number);
 
+        emergency_contact_one = (TextView)  mMainView.findViewById(R.id.emergency_contact_one);
+        emergency_contact_two = (TextView) mMainView.findViewById(R.id.emergency_contact_two);
+
         edit_profile = (ImageButton) mMainView.findViewById(R.id.edit_profile);
 
         user_profile_layout = (RelativeLayout) mMainView.findViewById(R.id.user_profile_layout);
@@ -121,9 +127,14 @@ public class UserProfile extends Fragment {
                 String phone = dataSnapshot.child("phone").getValue().toString();
                 final String image = dataSnapshot.child("image").getValue().toString();
 
+                String emergencyOne = dataSnapshot.child("emergency_contact_one").getValue().toString();
+                String emergencyTwo = dataSnapshot.child("emergency_contact_two").getValue().toString();
+
                 userName.setText(name);
                 userEmail.setText(email);
                 userNumber.setText(phone);
+                emergency_contact_one.setText(emergencyOne);
+                emergency_contact_two.setText(emergencyTwo);
 
                 if (!image.equals("default")) {
 
@@ -195,7 +206,7 @@ public class UserProfile extends Fragment {
 
                 mProgressDialog = new ProgressDialog(mMainView.getContext());
                 mProgressDialog.setTitle(R.string.uploading_image);
-                mProgressDialog.setMessage(String.valueOf(R.string.please_wait_while_we_upload_and_process_the_image));
+                mProgressDialog.setMessage(mMainView.getContext().getString(R.string.please_wait_while_we_upload_and_process_the_image));
                 mProgressDialog.setCanceledOnTouchOutside(false);
                 mProgressDialog.show();
 

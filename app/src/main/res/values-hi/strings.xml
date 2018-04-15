@@ -103,4 +103,8 @@
     <string name="please_wait_while_we_are_updating_your_avatar">कृपया प्रतीक्षा करें जब तक हम आपके अवतार को अपडेट कर रहे हैं</string>
     <string name="error_while_updating_first_emergency_contact">पहली आपातकालीन संपर्क को अपडेट करते समय त्रुटि</string>
     <string name="error_while_updating_second_emergency_contact">दूसरा इमरजेंसी संपर्क अपडेट करते समय त्रुटि</string>
+    <string name="emergency_contacts">आपातकालीन संपर्क</string>
+    <string name="default_default">चूक</string>
+    <string name="default_gmail_com">default@gmail.com</string>
+    <string name="about_ankit">I\'m a 3rd year Bachelor of Technology (Computer Science &amp; Engineering) student at Indian Institute of Information Technology, Design &amp; Manufacturing Jabalpur. I am very passionate about new technologies. Technology is magic to play with and watch. My specialty is design and development. My interests, however, extend beyond the development and I love helping people with designing and developing. I even love makings new things. When I\'m not free, I\'m probably being entertained by funny videos, watching cricket, playing games or messing around with something inspired by Sundar Pichai. Feel free to get in touch with me for anything that you\'re mutually interested in.</string>
 </resources>

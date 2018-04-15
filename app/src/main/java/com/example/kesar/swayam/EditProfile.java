@@ -157,7 +157,7 @@ public class EditProfile extends AppCompatActivity {
                 galleryIntent.setType("image/*");
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
 
-                startActivityForResult(Intent.createChooser(galleryIntent, String.valueOf(R.string.select_image)), GALLERY_PICK);
+                startActivityForResult(Intent.createChooser(galleryIntent, getApplicationContext().getString(R.string.select_image)), GALLERY_PICK);
 
             }
         });
@@ -168,7 +168,7 @@ public class EditProfile extends AppCompatActivity {
 
                 mProgressDialogForSaveChanges = new ProgressDialog(EditProfile.this);
                 mProgressDialogForSaveChanges.setTitle(R.string.saving_changes);
-                mProgressDialogForSaveChanges.setMessage(String.valueOf(R.string.please_wait_while_we_are_updating_your_avatar));
+                mProgressDialogForSaveChanges.setMessage(getApplicationContext().getString(R.string.please_wait_while_we_are_updating_your_avatar));
                 mProgressDialogForSaveChanges.show();
 
                 String emergency_one = mEmergencyNumberOne.getEditText().getText().toString();
