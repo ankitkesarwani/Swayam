@@ -45,7 +45,7 @@
         <activity
             android:name=".GalleryView"
             android:screenOrientation="portrait"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".Team"
             android:screenOrientation="portrait"

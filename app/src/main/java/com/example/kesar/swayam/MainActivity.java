@@ -35,6 +35,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -91,7 +92,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     String address;
 
-    private int TAG = 0;
+    int TAG = 0;
+    String current_uid = null;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -100,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         super.onCreate(savedInstanceState);
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
@@ -120,12 +123,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle(R.string.swayam);
 
-        mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+            current_uid = mCurrentUser.getUid();
 
-        String current_uid = mCurrentUser.getUid();
-
-        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(current_uid);
-        mUserDatabase.keepSynced(true);
+            mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(current_uid);
+            mUserDatabase.keepSynced(true);
+        } else {
+            sendToStart();
+        }
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -211,7 +217,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
-
     }
 
     @Override
@@ -226,6 +231,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
+    }
+
+    public void setTAG(int tag) {
+        TAG = tag;
     }
 
     private void sendToStart() {
@@ -281,16 +290,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dialogPaired.setView(paired_devices_layout);
 
         pairedDevicesList = (ListView) paired_devices_layout.findViewById(R.id.list_view);
-        final Button pairedDeviceButton = (Button) paired_devices_layout.findViewById(R.id.paired_devices);
+        //final Button pairedDeviceButton = (Button) paired_devices_layout.findViewById(R.id.paired_devices);
 
-        pairedDeviceButton.setOnClickListener(new View.OnClickListener() {
+        pairedDeviceList();
+        /*pairedDeviceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 pairedDeviceList();
 
             }
-        });
+        });*/
 
         dialogPaired.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
@@ -460,6 +470,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 intent.setData(Uri.parse("tel:" + number_two));
                 if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                     Snackbar.make(drawer, R.string.please_give_permission_to_call, Snackbar.LENGTH_LONG).show();
+                    ActivityCompat.requestPermissions(MainActivity.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CALL_PHONE,
+                                    Manifest.permission.READ_PHONE_STATE, Manifest.permission.RECEIVE_SMS, Manifest.permission.CHANGE_CONFIGURATION},
+                            1);
                     return;
                 }
                 startActivity(intent);

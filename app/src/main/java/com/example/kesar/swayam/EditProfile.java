@@ -230,7 +230,7 @@ public class EditProfile extends AppCompatActivity {
 
                 mProgressDialog = new ProgressDialog(EditProfile.this);
                 mProgressDialog.setTitle(R.string.uploading_image);
-                mProgressDialog.setMessage(String.valueOf(R.string.please_wait_while_we_upload_and_process_the_image));
+                mProgressDialog.setMessage(getApplicationContext().getString(R.string.please_wait_while_we_upload_and_process_the_image));
                 mProgressDialog.setCanceledOnTouchOutside(false);
                 mProgressDialog.show();
 

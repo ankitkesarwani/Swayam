@@ -3,6 +3,8 @@ package fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -250,7 +252,7 @@ public class WheelchairControl extends Fragment {
         @Override
         protected void onPreExecute()
         {
-            progress = ProgressDialog.show(getContext(), String.valueOf(R.string.connecting), String.valueOf(R.string.please_wait));  //show a progress dialog
+            progress = ProgressDialog.show(getContext(), getContext().getString(R.string.connecting), getContext().getString(R.string.please_wait));  //show a progress dialog
         }
 
         @Override
@@ -281,12 +283,17 @@ public class WheelchairControl extends Fragment {
 
             if (!ConnectSuccess)
             {
-                msg(String.valueOf(R.string.connection_failed_is_it_a_spp_bluetooth_try_again));
-                getActivity().finish();
+                msg(getContext().getString(R.string.connection_failed_is_it_a_spp_bluetooth_try_again));
+                ((MainActivity)getActivity()).setTAG(0);
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container, new UserActivity());
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
             else
             {
-                msg(String.valueOf(R.string.connected));
+                msg(getContext().getString(R.string.connected));
                 isBtConnected = true;
             }
             progress.dismiss();
